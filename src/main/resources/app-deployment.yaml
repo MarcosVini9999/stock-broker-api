@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mandacaru_broker-v2
+spec:
+  selector:
+    matchLabels:
+      app: mandakaru_broker-v2
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: mandakaru_broker-v2
+    spec:
+      containers:
+        - name:  mandakaru_broker-v
+          image:  mandakaru_broker-v2:1.0
+          ports:
+            - containerPort: 8080
+          env:   # Setting Environmental Variables
+            - name: DB_HOST   # Setting Database host address
+              value: mysql
+            - name: DB_NAME  # Setting Database name
+              value: mandacaru_broker
+            - name: DB_USERNAME  # Setting Database username
+              value: root
+            - name: DB_PASSWORD # Setting Database password
+              value: senha123
+# This seperator --- below is MANDATORY!!!
+---
+# Define a 'Service' To Expose the application
+apiVersion: v1
+kind: Service
+metadata:
+  name: mandakaru_broker-service
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 8080    # Port inside the cluster
+      targetPort: 8080   # Port exposed to the outside
+  selector:
+    app: mandakaru_broker-v2
+  type: NodePort

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <title>Register New USer</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <!-- bootstrap theme -->
+    <link href="./css/bootstrap-theme.css" rel="stylesheet">
+    <!--external css-->
+    <!-- font icon -->
+    <link href="./css/elegant-icons-style.css" rel="stylesheet"/>
+    <link href="./css/font-awesome.css" rel="stylesheet"/>
+    <!-- Custom styles -->
+    <link href="./css/style.css" rel="stylesheet">
+    <link href="./css/style-responsive.css" rel="stylesheet"/>
+
+
+    <script src="./js/html5shiv.js"></script>
+    <script src="./js/respond.min.js"></script>
+
+</head>
+
+<body class="login-img3-body">
+
+<div class="container">
+
+
+    <form class="login-form" th:action="@{/users/addNew}" method="post" style="max-width: 400px;background-color: #002a80; border-radius: 10px; padding: 20px;">
+        <div style="text-align:center; font-size:20px; color:green; font-weight:bold">
+            <span th:utext="${message}"></span>
+        </div>
+        <div class="login-wrap" >
+            <h1 style="text-align: center">Create Account</h1>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_profile"></i></span>
+                <input  required type="text" class="form-control" placeholder="Firstname" autofocus name="firstname" style="border-radius: 0px 5px 5px 0px; background-color:#ffffff">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_profile"></i></span>
+                <input required type="text" class="form-control" placeholder="Lastname" autofocus name="lastname" style="border-radius: 0px 5px 5px 0px; background-color:#ffffff">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_profile"></i></span>
+                <input required type="text" class="form-control" placeholder="Username" name="username" autofocus style="border-radius: 0px 5px 5px 0px; background-color:#ffffff">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                <input pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%&!]).{8,20}$"
+                       title="Siga o padrão:Sem espaços vazios/Mín: 8 caracteres, Max: 20 caracteres/Pelo menos uma letra minúscula/Pelo menos uma letra maiúscula/Pelo menos um número/Pelo menos um símbolo dentre: @, #, $, %, &, !"
+                       required type="password" class="form-control" placeholder="Password" id="password" name="password"
+                       style="border-radius: 0px 5px 5px 0px; background-color:#ffffff">
+
+
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                <input pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%&!]).{8,20}$"
+                       title="Siga o padrão:Sem espaços vazios/Mín: 8 caracteres, Max: 20 caracteres/Pelo menos uma letra minúscula/Pelo menos uma letra maiúscula/Pelo menos um número/Pelo menos um símbolo dentre: @, #, $, %, &, !"
+                       required type="password" class="form-control"  placeholder="Confirm Password" id="confirmPassword" name="confirmpassword"
+                       style="border-radius: 0px 5px 5px 0px; background-color:#ffffff">
+
+
+
+
+
+            </div>
+
+            <label class="checkbox">
+                <span><a th:href="@{/login}"> Login Page</a></span>
+                <span class="pull-right"> <a th:href="@{/forgot-password}"> Forgot Password?</a></span>
+            </label>
+            <button  class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+        </div>
+    </form>
+
+    <script>
+        function validatePassword() {
+            var senha = document.getElementById("password").value;
+            var confirmarSenha = document.getElementById("confirmPassword").value;
+
+            if (senha !== confirmarSenha) {
+                document.getElementById("confirmPassword").setCustomValidity("As senhas não coincidem!");
+            }
+
+            return true;
+        }
+    </script>
+
+
+</div>
+
+
+<!-- javascripts -->
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+<script src="js/register.js"></script>
+
+</body>
+
+</html>

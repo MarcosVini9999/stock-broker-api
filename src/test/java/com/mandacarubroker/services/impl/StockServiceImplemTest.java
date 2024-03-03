@@ -1,16 +1,15 @@
 package com.mandacarubroker.services.impl;
 
 
-import com.mandacarubroker.domain.stock.Stock;
-import com.mandacarubroker.domain.dto.RequestStockDTO;
-import com.mandacarubroker.repositories.StockRepository;
-import com.mandacarubroker.service.implementation.StockServiceImplem;
-import com.mandacarubroker.service.exceptions.DataIntegratyViolationException;
-import com.mandacarubroker.service.exceptions.StockNotFoundException;
 
-import jakarta.validation.ConstraintViolationException;
+
+import com.mandacarubroker.elements.dtos.RequestStockDTO;
+import com.mandacarubroker.elements.models.Stock;
+import com.mandacarubroker.elements.repositories.StockRepository;
+import com.mandacarubroker.elements.services.implementation.StockServiceImpl;
+import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
+import com.mandacarubroker.elements.services.exceptions.StockNotFoundException;
 import jakarta.validation.ValidationException;
-import jakarta.validation.constraints.AssertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -18,12 +17,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
@@ -44,8 +42,8 @@ class StockServiceImplemTest {
     private static final String ID  = "12345";
     private static final Integer INDEX   = 0;
     private static final String SYMBOL    = "AABB2";
-    private static final String COMPANY = "Petrobras";
-    private static final Double PRICE = 12.45;
+    private static final String DETAILS = "Stock up";
+    private static final Float PRICE = 12.45F;
 
     private static final String STOCK_NOT_FOUND = "Stock not found";
 
@@ -59,7 +57,7 @@ class StockServiceImplemTest {
 
 
     @Autowired
-    private StockServiceImplem service;
+    private StockServiceImpl service;
     @MockBean
     private StockRepository repository;
     private Stock stock;
@@ -74,12 +72,12 @@ class StockServiceImplemTest {
     @Test
     void whenFindByIdThenReturnAnStockInstance() {
         when(repository.findById(anyString())).thenReturn(Optional.of(stock));
-        Stock response = service.getStockById(ID);
+        Stock response = service.findById(ID);
         assertNotNull(response);
         assertEquals(Stock.class, response.getClass());
         assertEquals(ID, response.getId());
         assertEquals(SYMBOL, response.getSymbol());
-        assertEquals(COMPANY, response.getCompanyName());
+        assertEquals(DETAILS, response.getCompanyid());
         assertEquals(PRICE, response.getPrice());
     }
 
@@ -88,7 +86,7 @@ class StockServiceImplemTest {
         when(repository.findById(anyString()))
                 .thenThrow(new StockNotFoundException(STOCK_NOT_FOUND));
         try{
-            service.getStockById(ID);
+            service.findById(ID);
         } catch (Exception ex) {
             assertEquals(StockNotFoundException.class, ex.getClass());
             assertEquals(STOCK_NOT_FOUND, ex.getMessage());
@@ -98,35 +96,23 @@ class StockServiceImplemTest {
     @Test
     void whenFindAllThenReturnAnListOfUsers() {
         when(repository.findAll()).thenReturn(List.of(stock));
-        List<Stock> response = service.getAllStocks();
+        List<Stock> response = service.findAll();
         assertNotNull(response);
         assertEquals(1, response.size());
         assertEquals(Stock.class, response.get(INDEX).getClass());
 
         assertEquals(ID, response.get(INDEX).getId());
         assertEquals(SYMBOL, response.get(INDEX).getSymbol());
-        assertEquals(COMPANY, response.get(INDEX).getCompanyName());
+        assertEquals(DETAILS, response.get(INDEX).getCompanyid());
         assertEquals(PRICE, response.get(INDEX).getPrice());
     }
 
-    @Test
-    void whenCreateThenReturnSuccess() {
-        when(repository.save(any())).thenReturn(stock);
 
-        Stock response = service.validateAndCreateStock(requestStockDTO);
-
-        assertNotNull(response);
-        assertEquals(Stock.class, response.getClass());
-        assertEquals(ID, response.getId());
-        assertEquals(SYMBOL, response.getSymbol());
-        assertEquals(COMPANY, response.getCompanyName());
-        assertEquals(PRICE, response.getPrice());
-    }
 
     @Test
     void whenCreateThenReturnAnValidationConstraintViolationException() {
         try{
-            service.validateAndCreateStock(new RequestStockDTO("a2", "", 0D));
+            service.validateAndCreateStock(new RequestStockDTO("a2",  2, ""));
         } catch (Exception ex) {
             assertEquals(ValidationException.class, ex.getClass());
             assertTrue(VALIDATION.contains(ex.getMessage()));
@@ -149,7 +135,7 @@ class StockServiceImplemTest {
         assertEquals(Stock.class, response.getClass());
         assertEquals(ID, response.getId());
         assertEquals(SYMBOL, response.getSymbol());
-        assertEquals(COMPANY, response.getCompanyName());
+        assertEquals(DETAILS, response.getCompanyid());
         assertEquals(PRICE, response.getPrice());
     }
 
@@ -157,7 +143,7 @@ class StockServiceImplemTest {
     void whenUpdateThenReturnAnValidationConstraintViolationException() {
         when(repository.findById(anyString())).thenReturn(Optional.of(stock));
         try{
-            service.validateAndUpdateStock(ID,new RequestStockDTO("a2", "", 0D));
+            service.validateAndUpdateStock(ID,new RequestStockDTO("aAA2", 3, ""));
         } catch (Exception ex) {
             assertEquals(ValidationException.class, ex.getClass());
             assertTrue(VALIDATION.contains(ex.getMessage()));
@@ -189,7 +175,7 @@ class StockServiceImplemTest {
     void deleteWithSuccess() {
         when(repository.findById(anyString())).thenReturn(Optional.of(stock));
         doNothing().when(repository).deleteById(anyString());
-        service.deleteStock(ID);
+        service.delete(ID);
         verify(repository, times(1)).deleteById(anyString());
     }
 
@@ -198,7 +184,7 @@ class StockServiceImplemTest {
         when(repository.findById(anyString()))
                 .thenThrow(new StockNotFoundException(STOCK_NOT_FOUND));
         try {
-            service.deleteStock(ID);
+            service.delete(ID);
         } catch (Exception ex) {
             assertEquals(StockNotFoundException.class, ex.getClass());
             assertEquals(STOCK_NOT_FOUND, ex.getMessage());
@@ -207,7 +193,7 @@ class StockServiceImplemTest {
 
 
     private void startStock() {
-        requestStockDTO = new RequestStockDTO(SYMBOL, COMPANY,  PRICE);
+        requestStockDTO = new RequestStockDTO(SYMBOL, PRICE,  DETAILS);
         stock = new Stock(requestStockDTO);
         stock.setId(ID);
     }

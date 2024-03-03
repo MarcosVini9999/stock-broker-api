@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_layout">
+
+<body>
+
+<div layout:fragment="content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header"><i class="fa fa fa-bars"></i> Elements</h3>
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="/index">Home</a></li>
+                    <li><i class="fa fa-bars"></i><a href="/elements">Elements</a></li>
+                    <li><i class="fa fa-square-o"></i>Companies</li>
+                </ol>
+            </div>
+        </div>
+    <div class="container" style="width: 70%">
+        <div class="row justify-content-center" >
+            <div class="col-lg-12">
+                <form class="form-horizontal" th:action="@{/elements/companies}" method="post">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Editing Company
+                        </header>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Id</label>
+                                <div class="col-sm-6">
+                                    <input name="id" th:value="${company.id}" type="text" size="16" readonly class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Company Name</label>
+                                <div class="col-sm-6">
+                                    <input name="name" th:value="${company.name}" type="text" size="16" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Capital</label>
+                                <div class="col-sm-6">
+                                    <input name="capital" th:value="${company.capital}" class="form-control" size="16" type="number">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4"> Nationality</label>
+                                <div class="col-sm-6">
+                                    <input name="nationality" th:value="${company.nationality}"  type="text" class=" form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">Ticker</label>
+
+                                <div class="col-sm-5">
+                                    <input name="ticker" th:value="${company.ticker}"  type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-4">CNPJ</label>
+
+                                <div class="col-sm-5">
+                                    <input name="cnpj" th:value="${company.cnpj}"  type="text" class="form-control">
+                                </div>
+                            </div>
+
+                            <!--color picker end-->
+
+                        </div>
+                    </section>
+
+                    <section class="panel">
+
+                        <div class="panel-body">
+                            <button type="submit" class="btn btn-primary">
+                                Save
+                            </button>
+                            <a href="/elements/companies" class="btn  btn-warning">
+                                Exit
+                            </a>
+                        </div>
+                    </section>
+                </form>
+            </div>
+        </div>
+    </div>
+    </section>
+</div>
+
+</body>
+</html>
