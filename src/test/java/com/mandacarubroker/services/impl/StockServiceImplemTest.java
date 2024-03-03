@@ -43,6 +43,8 @@ class StockServiceImplemTest {
     private static final Integer INDEX   = 0;
     private static final String SYMBOL    = "AABB2";
     private static final String DETAILS = "Stock up";
+
+    private static final String COMPANYID= "GVUCSC";
     private static final Float PRICE = 12.45F;
 
     private static final String STOCK_NOT_FOUND = "Stock not found";
@@ -112,7 +114,7 @@ class StockServiceImplemTest {
     @Test
     void whenCreateThenReturnAnValidationConstraintViolationException() {
         try{
-            service.validateAndCreateStock(new RequestStockDTO("a2",  2, ""));
+            service.validateAndCreateStock(new RequestStockDTO("suudaaaf","a2",  2, ""));
         } catch (Exception ex) {
             assertEquals(ValidationException.class, ex.getClass());
             assertTrue(VALIDATION.contains(ex.getMessage()));
@@ -143,7 +145,7 @@ class StockServiceImplemTest {
     void whenUpdateThenReturnAnValidationConstraintViolationException() {
         when(repository.findById(anyString())).thenReturn(Optional.of(stock));
         try{
-            service.validateAndUpdateStock(ID,new RequestStockDTO("aAA2", 3, ""));
+            service.validateAndUpdateStock(ID,new RequestStockDTO("zzyfcytfzc","aAA2", 3, ""));
         } catch (Exception ex) {
             assertEquals(ValidationException.class, ex.getClass());
             assertTrue(VALIDATION.contains(ex.getMessage()));
@@ -193,7 +195,7 @@ class StockServiceImplemTest {
 
 
     private void startStock() {
-        requestStockDTO = new RequestStockDTO(SYMBOL, PRICE,  DETAILS);
+        requestStockDTO = new RequestStockDTO(COMPANYID,SYMBOL, PRICE,  DETAILS);
         stock = new Stock(requestStockDTO);
         stock.setId(ID);
     }
