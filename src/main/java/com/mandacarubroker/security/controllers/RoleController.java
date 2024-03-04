@@ -23,9 +23,8 @@ public class RoleController {
     private UserService userService;
 
     @GetMapping("/roles")
-    public ResponseEntity<List<Role>> elements(Model model) {
+    public ResponseEntity<List<Role>> elements() {
         List<Role> roles = roleService.findAll();
-        model.addAttribute("roles", roles);
         return ResponseEntity.ok(roles);
 
     }
