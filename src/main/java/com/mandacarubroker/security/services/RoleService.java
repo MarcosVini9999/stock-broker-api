@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -52,7 +53,7 @@ public class RoleService {
     //Unassign Role to User
     public void unassignUserRole(Integer userId, Integer roleId) {
         User user = userRepository.findById(userId).orElse(null);
-        user.getRoles().removeIf(x -> x.getId() == roleId);
+        user.getRoles().removeIf(x -> Objects.equals(x.getId(), roleId));
         userRepository.save(user);
     }
 
@@ -60,9 +61,7 @@ public class RoleService {
         return user.getRoles();
     }
 
-    public Set<Role> geUserRoles(User user) {
-        return user.getRoles();
-    }
+
 
     public List<Role> getUserNotRoles(User user) {
         return roleRepository.getUserNotRoles(user.getId());

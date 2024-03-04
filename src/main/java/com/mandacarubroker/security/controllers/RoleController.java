@@ -4,13 +4,16 @@ import  com.mandacarubroker.security.models.Role;
 import  com.mandacarubroker.security.services.RoleService;
 import  com.mandacarubroker.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/security")
 public class RoleController {
 
     @Autowired
@@ -19,42 +22,47 @@ public class RoleController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/security/roles")
-    public String elements(Model model) {
+    @GetMapping("/roles")
+    public ResponseEntity<List<Role>> elements(Model model) {
         List<Role> roles = roleService.findAll();
         model.addAttribute("roles", roles);
-        return "security/roles";
+        return ResponseEntity.ok(roles);
+
     }
 
-    @GetMapping("/security/role/{id}")
-    @ResponseBody
-    public Role getById(@PathVariable Integer id) {
-        return roleService.findById(id);
+    @GetMapping("/role/{id}")
+    public ResponseEntity<Role> getById(@PathVariable Integer id) {
+        Role role = roleService.findById(id);
+        return ResponseEntity.ok(role);
     }
 
-    @PostMapping("/security/roles")
-    public String save(Role role) {
+    @PostMapping("/roleAdd")
+    public ResponseEntity<String> save(Role role) {
         roleService.save(role);
-        return "redirect:/security/roles";
+        return ResponseEntity.status(HttpStatus.CREATED).body("Stock created successfully");
+
     }
 
-    @RequestMapping(value = "/security/role/delete/{id}", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String delete(@PathVariable Integer id) {
+    @DeleteMapping(value = "/role/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable Integer id) {
         roleService.delete(id);
-        return "redirect:/security/roles";
+        return ResponseEntity.ok("Stock created successfully");
     }
 
-    @RequestMapping("/security/role/assign/{userId}/{roleId}")
-    public String assignRole(@PathVariable Integer userId,
+    @RequestMapping("/role/assign/{userId}/{roleId}")
+    public ResponseEntity<String> assignRole(@PathVariable Integer userId,
                              @PathVariable Integer roleId) {
         roleService.assignUserRole(userId, roleId);
-        return "redirect:/security/user/Edit/" + userId;
+        return ResponseEntity.ok("Role assignment completed successfully");
+       // return "redirect:/security/user/Edit/" + userId;
     }
 
-    @RequestMapping("/security/role/unassign/{userId}/{roleId}")
-    public String unassignRole(@PathVariable Integer userId,
+    @RequestMapping("/role/unassign/{userId}/{roleId}")
+    public ResponseEntity<String> unassignRole(@PathVariable Integer userId,
                                @PathVariable Integer roleId) {
         roleService.unassignUserRole(userId, roleId);
-        return "redirect:/security/user/Edit/" + userId;
+
+        return ResponseEntity.ok("Role removal completed successfully");
+        //return "redirect:/security/user/Edit/" + userId;
     }
 }

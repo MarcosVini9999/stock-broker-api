@@ -2,17 +2,26 @@ package com.mandacarubroker.security.controllers;
 
 import com.mandacarubroker.elements.dtos.RequestUserDTO;
 import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
+import com.mandacarubroker.security.models.Role;
 import  com.mandacarubroker.security.models.User;
 import  com.mandacarubroker.security.services.RoleService;
 import  com.mandacarubroker.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-@Controller
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+@RestController
+@RequestMapping("/security")
 public class UserController {
 
     @Autowired
@@ -21,45 +30,51 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("/security/users")
-    public String getAll(Model model) {
-        model.addAttribute("users", userService.findAll());
-        return "/security/users";
-    }
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAll() {
+            return ResponseEntity.ok(userService.findAll());
 
-    @GetMapping("/security/user/{op}/{id}")
-    public String editUser(@PathVariable Integer id, @PathVariable String op, Model model) {
-        User user = userService.findById(id);
-        model.addAttribute("user", user);
-        model.addAttribute("userRoles", roleService.getUserRoles(user));
-        model.addAttribute("userNotRoles", roleService.getUserNotRoles(user));
-        return "/security/user" + op;
-    }
-
-
-    @PostMapping("/users/addNew")
-    public RedirectView addNew(RequestUserDTO data, RedirectAttributes redir) {
-        try {
-            data.isPasswordMatching();
-            userService.validateAndCreateUser(data);
-            redir.addFlashAttribute("message", "Your new user registration was successful!");
-            return new RedirectView("/login", true);
-        } catch (DataIntegratyViolationException ex) {
-            redir.addFlashAttribute("message", ex.getMessage());
-            return new RedirectView("/register", true);
         }
 
+    @PutMapping("/user/edit/{id}")
+    public ResponseEntity<String> editUser(@PathVariable Integer id) {
+        User user = userService.findById(id);
+        Set<Role> userRoles = roleService.getUserRoles(user);
+        List<Role> userNotRoles = roleService.getUserNotRoles(user);
 
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", user);
+        response.put("userRoles", userRoles);
+        response.put("userNotRoles", userNotRoles);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User role update successfully");
     }
 
 
+//@GetMapping("/user/details/{id}")
+//public ResponseEntity<?> detailsUser(@PathVariable Integer id) {
+//    User user = userService.findById(id);
+//    Set<Role> userRoles = roleService.getUserRoles(user);
+//    List<Role> userNotRoles = roleService.getUserNotRoles(user);
+//
+//    Map<String, Object> response = new HashMap<>();
+//    response.put("user", user);
+//    response.put("userRoles", userRoles);
+//    response.put("userNotRoles", userNotRoles);
+//
+//    return ResponseEntity.ok(response);
+//}
+//
+//
+//
 
 
 
-
-    @RequestMapping(value="security/users/delete/{id}", method = {RequestMethod.DELETE, RequestMethod.GET})
-    public String delete(@PathVariable Integer id) {
+    @DeleteMapping(value="/users/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable Integer id) {
         userService.delete(id);
-        return "redirect:/security/users";
+        return ResponseEntity.ok("Stock deleted successfully");
     }
 }
+
+

@@ -34,6 +34,7 @@ public class ApplicationSecurityConfig {
                                     .requestMatchers("/users/addNew").permitAll()
                                     .requestMatchers("/security/user/Edit/**","/security/users/delete/**","/img/**" ).hasAuthority("ADMIN")
                                     .anyRequest().authenticated())
+
                     .formLogin(login -> login.loginPage("/login").permitAll().defaultSuccessUrl("/index"))
 
 

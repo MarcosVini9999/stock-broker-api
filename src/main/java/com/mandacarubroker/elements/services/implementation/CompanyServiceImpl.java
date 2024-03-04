@@ -79,6 +79,26 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
     }
+
+    public void validateAndUpdateCompany(String id, RequestCompanyDTO data) {
+        validateRequestCompanyDTO(data);
+        Optional<Company> companyId = companyRepository.findById(id);
+
+        companyId
+                .map(company -> {
+                    company.setCapital(data.capital());
+                    company.setName(data.name());
+                    company.setNationality(data.nationality());
+
+
+                    return companyRepository.save(company);
+                });
+    }
+
+
+
+
+
     private void findByCnpj(RequestCompanyDTO data) {
         Optional<Company> company = companyRepository.findByCnpj(data.cnpj());
         if(company.isPresent()) {
