@@ -1,5 +1,6 @@
 package com.mandacarubroker.elements.restapis;
 
+import com.mandacarubroker.elements.dtos.ResponseCompanyDTO;
 import com.mandacarubroker.elements.models.Company;
 import com.mandacarubroker.elements.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class CompanyRestController {
 
     @CrossOrigin
     @GetMapping("/api/elements/companies")
-    public List<Company>  getAll(Model model){
-        List<Company> companies =   companyService.findAll();
+    public List<ResponseCompanyDTO>  getAll(){
+        List<ResponseCompanyDTO> companies =   companyService.findAll();
         return companies;
     }
 }

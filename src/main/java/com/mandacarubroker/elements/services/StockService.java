@@ -2,6 +2,7 @@ package com.mandacarubroker.elements.services;
 
 
 import com.mandacarubroker.elements.dtos.RequestStockDTO;
+import com.mandacarubroker.elements.dtos.ResponseStockDTO;
 import com.mandacarubroker.elements.models.Company;
 import com.mandacarubroker.elements.models.Stock;
 
@@ -9,10 +10,11 @@ import java.util.List;
 
 public interface StockService {
 
-    List<Stock> findAll();
+    List<ResponseStockDTO> findAll();
 
 
-    Stock findById(String id);
+
+    ResponseStockDTO findById(String id);
 
     void delete(String id);
 

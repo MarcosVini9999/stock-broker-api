@@ -1,6 +1,7 @@
 package com.mandacarubroker.elements.services.implementation;
 
 import com.mandacarubroker.elements.dtos.RequestCompanyDTO;
+import com.mandacarubroker.elements.dtos.ResponseCompanyDTO;
 import com.mandacarubroker.elements.models.Company;
 import com.mandacarubroker.elements.repositories.CompanyRepository;
 import com.mandacarubroker.elements.services.CompanyService;
@@ -28,14 +29,15 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
-    public List<Company> findAll(){
-        return companyRepository.findAll();
+    public List<ResponseCompanyDTO> findAll(){
+
+        return companyRepository.findAll().stream().map(ResponseCompanyDTO::new).toList();
     }
 
-    public Page<Company> findPage(int pageNumber){
-        Pageable pageable = PageRequest.of(pageNumber -1, 5);
-        return companyRepository.findAll(pageable);
-    }
+//    public Page<Company> findPage(int pageNumber){
+//        Pageable pageable = PageRequest.of(pageNumber -1, 5);
+//        return companyRepository.findAll(pageable);
+//    }
 
     public  void save(Company company){
         companyRepository.save(company);
@@ -45,8 +47,8 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepository.deleteById(id);
     }
 
-    public Company getById(String id) {
-        return companyRepository.findById(id).orElse(null);
+    public ResponseCompanyDTO getById(String id) {
+        return companyRepository.findById(id).map(ResponseCompanyDTO::new).orElse(null);
     }
 
     public void update(Company company) {

@@ -1,7 +1,5 @@
 package com.mandacarubroker.security.controllers;
 
-import com.mandacarubroker.elements.dtos.RequestUserDTO;
-import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
 import com.mandacarubroker.security.models.Role;
 import  com.mandacarubroker.security.models.User;
 import  com.mandacarubroker.security.services.RoleService;
@@ -9,11 +7,7 @@ import  com.mandacarubroker.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.HashMap;
 import java.util.List;

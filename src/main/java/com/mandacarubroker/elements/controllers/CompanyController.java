@@ -2,6 +2,7 @@ package com.mandacarubroker.elements.controllers;
 
 import com.mandacarubroker.elements.dtos.RequestCompanyDTO;
 import com.mandacarubroker.elements.dtos.RequestStockDTO;
+import com.mandacarubroker.elements.dtos.ResponseCompanyDTO;
 import com.mandacarubroker.elements.models.Company;
 import com.mandacarubroker.elements.models.Stock;
 import com.mandacarubroker.elements.services.CompanyService;
@@ -114,15 +115,16 @@ public class CompanyController {
     private CompanyService companyService;
 
     @GetMapping
-    public ResponseEntity<List<Company>> getAllStocks() {
+    public ResponseEntity<List<ResponseCompanyDTO>>getAllStocks() {
+
 
         return ResponseEntity.ok(companyService.findAll());
 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Company> getCompany(@PathVariable String id) {
-        Company company = companyService.getById(id);
-        return ResponseEntity.ok(company);
+    public ResponseEntity<ResponseCompanyDTO> getCompany(@PathVariable String id) {
+        ResponseCompanyDTO responseCompanyDTO = companyService.getById(id);
+        return ResponseEntity.ok(responseCompanyDTO);
     }
 
 

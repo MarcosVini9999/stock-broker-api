@@ -1,4 +1,4 @@
-package com.mandacarubroker.elements.dtos;
+package com.mandacarubroker.security.dtos;
 
 import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
 import jakarta.validation.constraints.NotNull;

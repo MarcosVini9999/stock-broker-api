@@ -1,8 +1,6 @@
 package com.mandacarubroker.security.services;
 
-import com.mandacarubroker.elements.dtos.RequestStockDTO;
-import com.mandacarubroker.elements.dtos.RequestUserDTO;
-import com.mandacarubroker.elements.models.Stock;
+import com.mandacarubroker.security.dtos.RequestUserDTO;
 import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
 import  com.mandacarubroker.security.models.User;
 import  com.mandacarubroker.security.repositories.UserRepository;

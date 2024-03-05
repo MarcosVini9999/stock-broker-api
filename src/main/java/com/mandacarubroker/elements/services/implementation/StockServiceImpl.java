@@ -1,6 +1,8 @@
 package com.mandacarubroker.elements.services.implementation;
 
 import com.mandacarubroker.elements.dtos.RequestStockDTO;
+import com.mandacarubroker.elements.dtos.ResponseCompanyDTO;
+import com.mandacarubroker.elements.dtos.ResponseStockDTO;
 import com.mandacarubroker.elements.models.Stock;
 import com.mandacarubroker.elements.repositories.StockRepository;
 import com.mandacarubroker.elements.services.StockService;
@@ -26,13 +28,15 @@ public class StockServiceImpl implements StockService {
 	private StockRepository stockRepository;
 	
 	//Get All States
-	public List<Stock> findAll(){
-		return stockRepository.findAll();
+	public List<ResponseStockDTO> findAll(){
+
+		return stockRepository.findAll().stream().map(ResponseStockDTO::new).toList();
 	}	
 	
 	//Get State By Id
-	public Stock findById(String id) {
-		return stockRepository.findById(id).orElse(null);
+	public ResponseStockDTO findById(String id) {
+
+		return stockRepository.findById(id).map(ResponseStockDTO::new).orElse(null);
 	}	
 	
 	//Delete State

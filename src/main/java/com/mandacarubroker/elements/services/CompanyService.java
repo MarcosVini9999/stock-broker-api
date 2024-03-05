@@ -1,6 +1,7 @@
 package com.mandacarubroker.elements.services;
 
 import com.mandacarubroker.elements.dtos.RequestCompanyDTO;
+import com.mandacarubroker.elements.dtos.ResponseCompanyDTO;
 import com.mandacarubroker.elements.models.Company;
 import org.springframework.data.domain.Page;
 
@@ -8,11 +9,11 @@ import java.util.List;
 
 public interface CompanyService {
 
-    List<Company> findAll();
+    public List<ResponseCompanyDTO> findAll();
 
 
-    Page<Company> findPage(int pageNumber);
-    Company getById(String id);
+//    Page<Company> findPage(int pageNumber);
+     ResponseCompanyDTO getById(String id);
 
 
     void delete(String id);
@@ -20,9 +21,9 @@ public interface CompanyService {
 
     void update(Company company);
 
-    List<Company> findByKeyword(String keyword);
-
-    Page<Company> findAllWithSort(String field, String direction, int pageNumber);
+//    List<Company> findByKeyword(String keyword);
+//
+//    Page<Company> findAllWithSort(String field, String direction, int pageNumber);
 
     public void validateAndUpdateCompany(String id, RequestCompanyDTO data);
 

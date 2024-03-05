@@ -4,6 +4,7 @@ package com.mandacarubroker.services.impl;
 
 
 import com.mandacarubroker.elements.dtos.RequestStockDTO;
+import com.mandacarubroker.elements.dtos.ResponseStockDTO;
 import com.mandacarubroker.elements.models.Stock;
 import com.mandacarubroker.elements.repositories.StockRepository;
 import com.mandacarubroker.elements.services.implementation.StockServiceImpl;
@@ -74,13 +75,14 @@ class StockServiceImplemTest {
     @Test
     void whenFindByIdThenReturnAnStockInstance() {
         when(repository.findById(anyString())).thenReturn(Optional.of(stock));
-        Stock response = service.findById(ID);
+
+        ResponseStockDTO response = service.findById(ID);
         assertNotNull(response);
         assertEquals(Stock.class, response.getClass());
-        assertEquals(ID, response.getId());
-        assertEquals(SYMBOL, response.getSymbol());
-        assertEquals(DETAILS, response.getCompanyid());
-        assertEquals(PRICE, response.getPrice());
+        assertEquals(ID, response.id());
+        assertEquals(SYMBOL, response.symbol());
+        assertEquals(DETAILS, response.details());
+        assertEquals(PRICE, response.price());
     }
 
     @Test
@@ -98,15 +100,16 @@ class StockServiceImplemTest {
     @Test
     void whenFindAllThenReturnAnListOfUsers() {
         when(repository.findAll()).thenReturn(List.of(stock));
-        List<Stock> response = service.findAll();
+        List<
+                ResponseStockDTO> response = service.findAll();
         assertNotNull(response);
         assertEquals(1, response.size());
         assertEquals(Stock.class, response.get(INDEX).getClass());
 
-        assertEquals(ID, response.get(INDEX).getId());
-        assertEquals(SYMBOL, response.get(INDEX).getSymbol());
-        assertEquals(DETAILS, response.get(INDEX).getCompanyid());
-        assertEquals(PRICE, response.get(INDEX).getPrice());
+        assertEquals(ID, response.get(INDEX).id());
+        assertEquals(SYMBOL, response.get(INDEX).symbol());
+        assertEquals(DETAILS, response.get(INDEX).details());
+        assertEquals(PRICE, response.get(INDEX).price());
     }
 
 
@@ -137,7 +140,8 @@ class StockServiceImplemTest {
         assertEquals(Stock.class, response.getClass());
         assertEquals(ID, response.getId());
         assertEquals(SYMBOL, response.getSymbol());
-        assertEquals(DETAILS, response.getCompanyid());
+        assertEquals(DETAILS, response.getDetails());
+        assertEquals(COMPANYID, response.getCompanyid());
         assertEquals(PRICE, response.getPrice());
     }
 
