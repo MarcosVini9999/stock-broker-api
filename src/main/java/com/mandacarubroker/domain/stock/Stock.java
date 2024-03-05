@@ -28,7 +28,7 @@ public class Stock {
     private String companyName;
     private double price;
     private double variation;
-    private static final DecimalFormat decForm = new DecimalFormat("#.####");
+    private static final DecimalFormat DEC = new DecimalFormat("#.####");
 
     public Stock(RequestStockDTO requestStockDTO) {
         this.symbol = requestStockDTO.symbol();
@@ -39,7 +39,7 @@ public class Stock {
 
     public double changePrice(double amount) {
         if (this.price != 0) {
-            String number = decForm.format(((amount - this.price) / this.price) * 100);
+            String number = DEC.format(((amount - this.price) / this.price) * 100);
             this.variation = Double.parseDouble(number.replace(",", "."));
         }
         return amount;
