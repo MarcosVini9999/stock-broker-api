@@ -1,29 +1,20 @@
 package com.mandacarubroker.controller.exceptions;
 
-
-import com.mandacarubroker.domain.dto.RequestStockDTO;
-import com.mandacarubroker.service.exceptions.DataIntegratyViolationException;
-import com.mandacarubroker.service.exceptions.StockNotFoundException;
-import jakarta.validation.*;
+import com.mandacarubroker.elements.controller.exceptions.ControllerExceptionHandler;
+import com.mandacarubroker.elements.controller.exceptions.StandardError;
+import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
+import com.mandacarubroker.elements.services.exceptions.StockNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import java.sql.Timestamp;
-import java.time.Duration;
+import org.springframework.http.ResponseEntity
 import java.time.LocalDateTime;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class ControllerExceptionHandlerTest {

@@ -1,4 +1,4 @@
-package com.mandacarubroker.controller.exceptions;
+package com.mandacarubroker.elements.controller.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

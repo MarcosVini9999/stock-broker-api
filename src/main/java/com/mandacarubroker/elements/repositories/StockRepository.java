@@ -1,7 +1,7 @@
-package com.mandacarubroker.repositories;
+package com.mandacarubroker.elements.repositories;
 
 
-import com.mandacarubroker.domain.stock.Stock;
+import com.mandacarubroker.elements.domain.stock.Stock;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

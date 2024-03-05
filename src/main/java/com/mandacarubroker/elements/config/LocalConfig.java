@@ -1,7 +1,7 @@
-package com.mandacarubroker.config;
-import com.mandacarubroker.domain.dto.RequestStockDTO;
-import com.mandacarubroker.domain.stock.Stock;
-import com.mandacarubroker.repositories.StockRepository;
+package com.mandacarubroker.elements.config;
+import com.mandacarubroker.elements.domain.dto.RequestStockDTO;
+import com.mandacarubroker.elements.domain.stock.Stock;
+import com.mandacarubroker.elements.repositories.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
