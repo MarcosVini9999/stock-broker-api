@@ -97,7 +97,8 @@ class StockServiceImplem implements StockService {
                 StringBuilder errorMessage = new StringBuilder("Validation failed. Details: ");
 
                 for (ConstraintViolation<RequestStockDTO> violation : violations) {
-                    errorMessage.append(String.format("[%s: %s], ", violation.getPropertyPath(), violation.getMessage()));
+                    errorMessage.append(String.format("[%s: %s], ",
+                            violation.getPropertyPath(), violation.getMessage()));
                 }
 
                 errorMessage.delete(errorMessage.length() - 2, errorMessage.length());
