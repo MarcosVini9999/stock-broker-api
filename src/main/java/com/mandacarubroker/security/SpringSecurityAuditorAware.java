@@ -9,7 +9,6 @@ import java.util.Optional;
 @Component("springSecurityAuditorAware")
 public class SpringSecurityAuditorAware implements AuditorAware<String> {
     @Override
-
     public Optional<String> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();

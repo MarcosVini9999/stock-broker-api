@@ -34,37 +34,32 @@ public class ApplicationSecurityConfig {
     }
 
 
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(
+                        (authz) -> authz
+                                .requestMatchers("/login", "/resources/**", "/css/**", "/fonts/**", "/img/**").permitAll()
+                                .requestMatchers("/register", "/resources/**", "/css/**", "/fonts/**", "/img/**", "/js/**").permitAll()
+                                .requestMatchers("/users/addNew").permitAll()
+                                .requestMatchers("/security/user/Edit/**", "/security/users/delete/**", "/img/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                                .anyRequest().authenticated()
+                )
 
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            http
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(logout -> logout
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/auth/login").permitAll())
+                .exceptionHandling(exceptionHandler -> exceptionHandler.accessDeniedPage("/accessDenied"));
 
-                    .csrf(csrf -> csrf.disable())
-                    .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                    .authorizeHttpRequests(
-                            (authz) -> authz.requestMatchers("/login", "/resources/**", "/css/**", "/fonts/**", "/img/**").permitAll()
-                                    .requestMatchers("/register", "/resources/**", "/css/**", "/fonts/**", "/img/**", "/js/**").permitAll()
-                                    .requestMatchers("/users/addNew").permitAll()
-                                    .requestMatchers("/security/user/Edit/**","/security/users/delete/**","/img/**" ).hasAuthority("ADMIN")
-                                    .anyRequest().authenticated())
-
-                    .authorizeHttpRequests(authorize -> authorize
-                            .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                            .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                            .anyRequest().authenticated()
-                    )
-                    .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-
-
-
-                    .logout(logout -> logout.invalidateHttpSession(true)
-                            .clearAuthentication(true)
-                            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                            .logoutSuccessUrl("/login").permitAll())
-                    .exceptionHandling(exceptionHandler -> exceptionHandler.accessDeniedPage("/accessDenied"));
-
-            return http.build();
-        }
+        return http.build();
+    }
 
         @Autowired
         private UserDetailsService userDetailsService;

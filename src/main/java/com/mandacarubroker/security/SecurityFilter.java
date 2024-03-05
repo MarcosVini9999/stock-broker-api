@@ -1,5 +1,7 @@
 package com.mandacarubroker.security;
 
+import com.mandacarubroker.security.models.User;
+import com.mandacarubroker.security.models.UserPrincipal;
 import com.mandacarubroker.security.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -9,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
@@ -26,10 +30,16 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = this.recoverToken(request);
         if(token != null){
             var username = tokenService.validateToken(token);
-            UserDetails user = userRepository.findByUserPrincipalname(username);
+            Optional<User> user = userRepository.findByUsername(username);
+            if (user.isEmpty()) {
+                throw new UsernameNotFoundException("User not found!");
+            }else{
+                User newUser = user.get();
+                UserDetails newUserDetails = new UserPrincipal(newUser);
 
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            var authentication = new UsernamePasswordAuthenticationToken(newUserDetails, null, newUserDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);}
         }
         filterChain.doFilter(request, response);
     }
