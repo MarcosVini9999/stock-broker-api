@@ -1,6 +1,6 @@
 
-CREATE DATABASE IF NOT EXISTS mandacaru_broker;
-USE mandacaru_broker;
+CREATE DATABASE IF NOT EXISTS mandacaru_broker2;
+USE mandacaru_broker2;
 
 CREATE TABLE stock (
                        id VARCHAR(255) PRIMARY KEY,
