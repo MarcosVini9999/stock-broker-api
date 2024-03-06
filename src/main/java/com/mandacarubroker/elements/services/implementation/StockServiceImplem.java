@@ -1,75 +1,100 @@
 package com.mandacarubroker.elements.services.implementation;
 
-import com.mandacarubroker.elements.domain.dto.RequestStockDTO;
-import com.mandacarubroker.elements.domain.stock.Stock;
+
+import com.mandacarubroker.elements.domain.dtos.RequestStockDTO;
+import com.mandacarubroker.elements.domain.dtos.ResponseStockDTO;
+import com.mandacarubroker.elements.domain.entities.Stock;
 import com.mandacarubroker.elements.repositories.StockRepository;
 import com.mandacarubroker.elements.services.StockService;
 import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
-import com.mandacarubroker.elements.services.exceptions.StockNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.Validation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.ConstraintViolation;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Supplier;
 
 @Service
-public
-class StockServiceImplem implements StockService {
+public class StockServiceImplem implements StockService {
 
-    public static final Supplier<StockNotFoundException> NOT_FOUND_EXCEPTION_SUPPLIER =
-            () -> new StockNotFoundException(("Stock not found"));
-    //    @Autowired
-    private final StockRepository stockRepository;
+    @Autowired
+    private StockRepository stockRepository;
 
+    //Get All States
+    public List<ResponseStockDTO> findAll(){
 
-    public StockServiceImplem(StockRepository stockRepository) {
-        this.stockRepository = stockRepository;
+        return stockRepository.findAll().stream().map(ResponseStockDTO::new).toList();
     }
 
-    public List<Stock> getAllStocks() {
-        return stockRepository.findAll();
+    //Get State By Id
+    public ResponseStockDTO findById(String id) {
+
+        return stockRepository.findById(id).map(ResponseStockDTO::new).orElse(null);
     }
 
-    public Stock getStockById(String id) {
-        return stockRepository.findById(id).orElseThrow(
-                NOT_FOUND_EXCEPTION_SUPPLIER);
+    //Delete State
+    public void delete(String id) {
+        stockRepository.deleteById(id);
     }
 
+    //Update State
 
-    public void deleteStock(String id) {
-        Stock stock = stockRepository.findById(id).orElseThrow(
-                NOT_FOUND_EXCEPTION_SUPPLIER);
 
-        stockRepository.deleteById(stock.getId());
-    }
+
+
 
     public Stock validateAndUpdateStock(String id, RequestStockDTO data) {
-        validateRequestStockDTO(data);
+        validateRequestDTO(data);
         Optional<Stock> stockId = stockRepository.findById(id);
-            if(stockId.isPresent()) {
-                Stock stockBD = stockId.get();
-                findComp(stockBD, data);
+        if(stockId.isPresent()) {
+            Stock stockBD = stockId.get();
+            findComp(stockBD, data);
 
 
+        }
+        return stockId
+                .map(stock -> {
+                    stock.setSymbol(data.symbol());
+                    float newPrice = stock.changePrice(data.price());
+                    stock.setPrice(newPrice);
+
+
+                    return stockRepository.save(stock);
+                }).orElse(null);
+    }
+
+
+
+
+
+    public static void validateRequestDTO(RequestStockDTO data) {
+        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+            Validator validator = factory.getValidator();
+
+            Set<ConstraintViolation<RequestStockDTO>> violations = validator.validate(data);
+
+            if (!violations.isEmpty()) {
+                StringBuilder errorMessage = new StringBuilder("Validation failed. Details: ");
+
+                for (ConstraintViolation<RequestStockDTO> violation : violations) {
+                    errorMessage.append(String.format("[%s: %s], ", violation.getPropertyPath(), violation.getMessage()));
+                }
+
+                errorMessage.delete(errorMessage.length() - 2, errorMessage.length());
+
+                throw new ConstraintViolationException(errorMessage.toString(), violations);
             }
-            return stockId
-                    .map(stock -> {
-                        stock.setSymbol(data.symbol());
-                        stock.setCompanyName(data.companyName());
-                        double newPrice = stock.changePrice(data.price());
-                        stock.setPrice(newPrice);
+        }catch (ValidationException ve) {
+            throw new ValidationException(ve.getMessage());
+        }
 
-                        return stockRepository.save(stock);
-                    }).orElseThrow(
-                            NOT_FOUND_EXCEPTION_SUPPLIER);
     }
 
     private void findBySymbol(RequestStockDTO data) {
@@ -82,43 +107,20 @@ class StockServiceImplem implements StockService {
 
     private void findComp(Stock stockBD,RequestStockDTO data) {
         if((!Objects.equals(data.symbol(), stockBD.getSymbol()))){
-                findBySymbol(data);
-            }
-    }
-
-
-    public static void validateRequestStockDTO(RequestStockDTO data) {
-        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
-            Validator validator = factory.getValidator();
-
-            Set<ConstraintViolation<RequestStockDTO>> violations = validator.validate(data);
-
-            if (!violations.isEmpty()) {
-                StringBuilder errorMessage = new StringBuilder("Validation failed. Details: ");
-
-                for (ConstraintViolation<RequestStockDTO> violation : violations) {
-                    errorMessage.append(String.format("[%s: %s], ",
-                            violation.getPropertyPath(), violation.getMessage()));
-                }
-
-                errorMessage.delete(errorMessage.length() - 2, errorMessage.length());
-
-                    throw new ConstraintViolationException(errorMessage.toString(), violations);
-            }
-        }catch (ValidationException ve) {
-            throw new ValidationException(ve.getMessage());
+            findBySymbol(data);
         }
-
     }
 
-
-    public Stock validateAndCreateStock(RequestStockDTO data) {
-        validateRequestStockDTO(data);
+    public void validateAndCreateStock(RequestStockDTO data) {
+        validateRequestDTO(data);
         findBySymbol(data);
 
         Stock newStock = new Stock(data);
-        return stockRepository.save(newStock);
+        stockRepository.save(newStock);
     }
+
+
+
 
 
 }
