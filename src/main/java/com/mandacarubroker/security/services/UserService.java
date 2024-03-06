@@ -4,8 +4,8 @@ import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationEx
 
 import com.mandacarubroker.security.domain.dtos.RequestUserDTO;
 import com.mandacarubroker.security.domain.dtos.ResponseUserDTO;
-import com.mandacarubroker.security.domain.user.User;
-import com.mandacarubroker.security.respositories.UserRepository;
+import com.mandacarubroker.security.domain.entities.User;
+import com.mandacarubroker.security.repositories.UserRepository;
 import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,15 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-
+    //Get All Users
     public List<ResponseUserDTO> findAll() {
+
         return userRepository.findAll().stream().map(ResponseUserDTO::new).toList();
     }
 
-
+    //Get User By Id
     public User findById(int id) {
+
         return userRepository.findById(id).orElse(null);
     }
 
@@ -36,6 +38,8 @@ public class UserService {
     public void delete(int id) {
         userRepository.deleteById(id);
     }
+
+
 
 
 

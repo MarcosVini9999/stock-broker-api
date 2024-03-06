@@ -1,9 +1,9 @@
 package com.mandacarubroker.security.services;
 
 
-import com.mandacarubroker.security.domain.user.User;
-import com.mandacarubroker.security.domain.user.UserPrincipal;
-import com.mandacarubroker.security.respositories.UserRepository;
+import com.mandacarubroker.security.domain.entities.User;
+import com.mandacarubroker.security.domain.entities.UserPrincipal;
+import com.mandacarubroker.security.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,6 +26,6 @@ public class MyUserDetailsService implements UserDetailsService {
         }else{
             User newUser = user.get();
 
-        return new UserPrincipal(newUser);}
+            return new UserPrincipal(newUser);}
     }
 }
