@@ -1,21 +1,23 @@
 package com.mandacarubroker.elements.services;
 
-import com.mandacarubroker.elements.domain.dto.RequestStockDTO;
-import com.mandacarubroker.elements.domain.stock.Stock;
+import com.mandacarubroker.elements.domain.dtos.RequestStockDTO;
+import com.mandacarubroker.elements.domain.dtos.ResponseStockDTO;
+import com.mandacarubroker.elements.domain.entities.Stock;
 
 import java.util.List;
 
 public interface StockService {
 
-    List<Stock> getAllStocks();
-
-    Stock getStockById(String id);
+    List<ResponseStockDTO> findAll();
 
 
-    void deleteStock(String id);
+
+    ResponseStockDTO findById(String id);
+
+    void delete(String id);
 
 
-    Stock validateAndCreateStock(RequestStockDTO data);
+    void validateAndCreateStock(RequestStockDTO data);
 
     Stock validateAndUpdateStock(String id, RequestStockDTO data );
 

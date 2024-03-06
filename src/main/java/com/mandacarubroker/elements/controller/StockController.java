@@ -1,7 +1,9 @@
 package com.mandacarubroker.elements.controller;
-import com.mandacarubroker.elements.domain.stock.Stock;
-import com.mandacarubroker.elements.domain.dto.RequestStockDTO;
+import com.mandacarubroker.elements.domain.dtos.RequestStockDTO;
+import com.mandacarubroker.elements.services.CompanyService;
 import com.mandacarubroker.elements.services.StockService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,51 +17,62 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/stocks")
+@RequestMapping("/elements/stocks")
 public class StockController {
-    public static final String ID = "/{id}";
 
-    private final StockService stockService;
+    @Autowired
+    private StockService stockService;
 
-    public StockController(StockService stockService) {
-        this.stockService = stockService;
-    }
+    @Autowired
+    private CompanyService companyService;
+
+
 
     @GetMapping
-    public ResponseEntity<List<Stock>> getAllStocks() {
-
-        return ResponseEntity.ok(stockService.getAllStocks());
-
-    }
-
-    @GetMapping(ID)
-    public ResponseEntity<Stock> getStockById(@PathVariable String id) {
-        Stock stock = stockService.getStockById(id);
-        return ResponseEntity.ok(stock);
-    }
-
-    @PostMapping
-    public ResponseEntity<Stock> createStock(@RequestBody RequestStockDTO data) {
-        Stock createdStock = stockService.validateAndCreateStock(data);
-        return ResponseEntity.ok(createdStock);
-
-
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok()
+                .body(Map.of(
+                        "stocks", stockService.findAll(),
+                        "companies", companyService.findAll()
+                ));
     }
 
 
-    @PutMapping(ID)
-    public ResponseEntity<Stock> updateStock(@PathVariable String id, @RequestBody RequestStockDTO data) {
-        Stock stockUp = stockService.validateAndUpdateStock(id, data);
-        return ResponseEntity.ok(stockUp);
+
+    @GetMapping("/details/{id}")
+    public ResponseEntity<?>  getStockById(@PathVariable String id) {
+        return ResponseEntity.ok(
+                Map.of(
+                        "stocks", stockService.findById(id),
+                        "companies", companyService.findAll(),
+                        "stock", stockService.findById(id)
+                )
+        );
     }
 
-    @DeleteMapping(ID)
-    public ResponseEntity<String> deleteStock(@PathVariable String id) {
-        stockService.deleteStock(id);
-        return ResponseEntity.ok("Deleted with success");
 
+
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<?> editStock(@PathVariable String id, @RequestBody RequestStockDTO data) {
+        stockService.validateAndUpdateStock(id, data);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Stock update successfully");
     }
 
+
+
+    @PostMapping("/stockAdd")
+    public ResponseEntity<String> addNew(@RequestBody RequestStockDTO data) {
+        stockService.validateAndCreateStock(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Stock created successfully");
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable String id) {
+        stockService.delete(id);
+        return ResponseEntity.ok("Stock deleted successfully");
+
+    }
 }
