@@ -18,21 +18,15 @@ public class LocalConfig {
 
     @Bean
     public void startDB() {
-        final double VALOR_MAGICO_1 = 111D;
-        final double VALOR_MAGICO_2 = 723.34;
+        final double pricedto = 111D;
+        final double pricedtp2 = 723.34;
 
-        RequestStockDTO rdto = new RequestStockDTO("AABB2", "Petrobras", VALOR_MAGICO_1);
-        RequestStockDTO rdto2 = new RequestStockDTO("BBAA5", "Apple", VALOR_MAGICO_2);
+        RequestStockDTO rdto = new RequestStockDTO("AABB2", "Petrobras", pricedto);
+        RequestStockDTO rdto2 = new RequestStockDTO("BBAA5", "Apple", pricedtp2);
         Stock u1 = new Stock(rdto);
         Stock u2 = new Stock(rdto2);
         u1.setId("12345");
         u2.setId("5678");
-
-
-
-
-
-
 
         repository.saveAll(List.of(u1, u2));
     }
