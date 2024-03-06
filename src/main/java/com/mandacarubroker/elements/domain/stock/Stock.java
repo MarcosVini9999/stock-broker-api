@@ -1,6 +1,6 @@
-package com.mandacarubroker.domain.stock;
+package com.mandacarubroker.elements.domain.stock;
 
-import com.mandacarubroker.domain.dto.RequestStockDTO;
+import com.mandacarubroker.elements.domain.dto.RequestStockDTO;
 import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.mandacarubroker.domain.dto;
+package com.mandacarubroker.elements.domain.dto;
 
 
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package com.mandacarubroker.service.exceptions;
+package com.mandacarubroker.elements.services.exceptions;
 
 public class StockNotFoundException extends RuntimeException{
 

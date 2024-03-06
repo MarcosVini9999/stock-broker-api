@@ -1,7 +1,7 @@
-package com.mandacarubroker.service;
+package com.mandacarubroker.elements.services;
 
-import com.mandacarubroker.domain.dto.RequestStockDTO;
-import com.mandacarubroker.domain.stock.Stock;
+import com.mandacarubroker.elements.domain.dto.RequestStockDTO;
+import com.mandacarubroker.elements.domain.stock.Stock;
 
 import java.util.List;
 

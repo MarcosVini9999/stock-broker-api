@@ -1,8 +1,8 @@
 
-package com.mandacarubroker.controller.exceptions;
+package com.mandacarubroker.elements.controller.exceptions;
 
-import com.mandacarubroker.service.exceptions.DataIntegratyViolationException;
-import com.mandacarubroker.service.exceptions.StockNotFoundException;
+import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
+import com.mandacarubroker.elements.services.exceptions.StockNotFoundException;
 
 
 import jakarta.validation.ConstraintViolationException;

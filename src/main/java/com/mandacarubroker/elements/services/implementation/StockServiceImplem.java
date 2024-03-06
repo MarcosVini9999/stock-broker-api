@@ -1,11 +1,11 @@
-package com.mandacarubroker.service.implementation;
+package com.mandacarubroker.elements.services.implementation;
 
-import com.mandacarubroker.domain.dto.RequestStockDTO;
-import com.mandacarubroker.domain.stock.Stock;
-import com.mandacarubroker.repositories.StockRepository;
-import com.mandacarubroker.service.StockService;
-import com.mandacarubroker.service.exceptions.DataIntegratyViolationException;
-import com.mandacarubroker.service.exceptions.StockNotFoundException;
+import com.mandacarubroker.elements.domain.dto.RequestStockDTO;
+import com.mandacarubroker.elements.domain.stock.Stock;
+import com.mandacarubroker.elements.repositories.StockRepository;
+import com.mandacarubroker.elements.services.StockService;
+import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
+import com.mandacarubroker.elements.services.exceptions.StockNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;

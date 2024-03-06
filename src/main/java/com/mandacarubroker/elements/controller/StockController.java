@@ -1,7 +1,7 @@
-package com.mandacarubroker.controller;
-import com.mandacarubroker.domain.stock.Stock;
-import com.mandacarubroker.domain.dto.RequestStockDTO;
-import com.mandacarubroker.service.StockService;
+package com.mandacarubroker.elements.controller;
+import com.mandacarubroker.elements.domain.stock.Stock;
+import com.mandacarubroker.elements.domain.dto.RequestStockDTO;
+import com.mandacarubroker.elements.services.StockService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
