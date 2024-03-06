@@ -24,8 +24,12 @@ import java.util.Set;
 @Service
 public class StockServiceImplem implements StockService {
 
+    private final StockRepository stockRepository;
+
     @Autowired
-    private StockRepository stockRepository;
+    public StockServiceImplem(StockRepository stockRepository) {
+        this.stockRepository = stockRepository;
+    }
 
     //Get All States
     public List<ResponseStockDTO> findAll(){
@@ -43,12 +47,6 @@ public class StockServiceImplem implements StockService {
     public void delete(String id) {
         stockRepository.deleteById(id);
     }
-
-    //Update State
-
-
-
-
 
     public Stock validateAndUpdateStock(String id, RequestStockDTO data) {
         validateRequestDTO(data);
@@ -69,10 +67,6 @@ public class StockServiceImplem implements StockService {
                     return stockRepository.save(stock);
                 }).orElse(null);
     }
-
-
-
-
 
     public static void validateRequestDTO(RequestStockDTO data) {
         try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
@@ -118,9 +112,5 @@ public class StockServiceImplem implements StockService {
         Stock newStock = new Stock(data);
         stockRepository.save(newStock);
     }
-
-
-
-
 
 }

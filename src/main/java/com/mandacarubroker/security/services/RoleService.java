@@ -15,11 +15,15 @@ import java.util.Set;
 @Service
 public class RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public RoleService(RoleRepository roleRepository, UserRepository userRepository) {
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+    }
 
     //Get All Roles
     public List<Role> findAll() {

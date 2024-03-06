@@ -4,6 +4,7 @@ package com.mandacarubroker.elements.controller;
 import com.mandacarubroker.elements.domain.dtos.RequestCompanyDTO;
 import com.mandacarubroker.elements.domain.dtos.ResponseCompanyDTO;
 import com.mandacarubroker.elements.services.CompanyService;
+import com.mandacarubroker.elements.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/elements/companies")
 public class CompanyController {
+    private final CompanyService companyService;
 
     @Autowired
-    private CompanyService companyService;
+    public CompanyController(CompanyService companyService) {
+        this.companyService = companyService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<ResponseCompanyDTO>>getAllStocks() {

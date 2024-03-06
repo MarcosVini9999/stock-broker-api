@@ -23,11 +23,14 @@ import java.util.Map;
 @RequestMapping("/elements/stocks")
 public class StockController {
 
-    @Autowired
-    private StockService stockService;
+    private final StockService stockService;
+    private final CompanyService companyService;
 
     @Autowired
-    private CompanyService companyService;
+    public StockController(StockService stockService, CompanyService companyService) {
+        this.stockService = stockService;
+        this.companyService = companyService;
+    }
 
 
 

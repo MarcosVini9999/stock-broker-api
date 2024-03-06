@@ -29,21 +29,24 @@ import java.util.Map;
 @RestController
 @RequestMapping("/auth")
 public class SecurityController {
-    @Autowired
-    private StockService stockService;
+    private final StockService stockService;
+    private final CompanyService companyService;
+    private final UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
     @Autowired
-    private CompanyService companyService;
-
-    @Autowired
-    private UserService userService;
-
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private TokenService tokenService;
+    public SecurityController(StockService stockService,
+                              CompanyService companyService,
+                              UserService userService,
+                              AuthenticationManager authenticationManager,
+                              TokenService tokenService) {
+        this.stockService = stockService;
+        this.companyService = companyService;
+        this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
+    }
 
 
     @PostMapping("/login")

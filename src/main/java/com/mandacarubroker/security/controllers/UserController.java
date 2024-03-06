@@ -19,11 +19,19 @@ import java.util.Set;
 @RequestMapping("/security")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+
+
+    private final RoleService roleService;
+    private final UserService userService;
 
     @Autowired
-    private RoleService roleService;
+    public UserController(RoleService roleService, UserService userService) {
+        this.roleService = roleService;
+        this.userService = userService;
+    }
+
+
+
 
     @GetMapping("/users")
     public ResponseEntity<List<ResponseUserDTO>> getAll() {

@@ -18,11 +18,14 @@ import java.util.Set;
 @Service
 public class UserService {
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public UserService(BCryptPasswordEncoder encoder, UserRepository userRepository) {
+        this.encoder = encoder;
+        this.userRepository = userRepository;
+    }
 
     //Get All Users
     public List<ResponseUserDTO> findAll() {

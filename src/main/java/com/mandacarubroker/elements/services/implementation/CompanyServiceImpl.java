@@ -5,6 +5,7 @@ import com.mandacarubroker.elements.domain.dtos.RequestCompanyDTO;
 import com.mandacarubroker.elements.domain.dtos.ResponseCompanyDTO;
 import com.mandacarubroker.elements.domain.entities.Company;
 import com.mandacarubroker.elements.repositories.CompanyRepository;
+import com.mandacarubroker.elements.repositories.StockRepository;
 import com.mandacarubroker.elements.services.CompanyService;
 import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
 import jakarta.validation.*;
@@ -19,8 +20,12 @@ import java.util.Set;
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
+    private final CompanyRepository companyRepository;
+
     @Autowired
-    private CompanyRepository companyRepository;
+    public CompanyServiceImpl(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
 
     public List<ResponseCompanyDTO> findAll(){
 

@@ -14,12 +14,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/security")
 public class RoleController {
-
+    private final RoleService roleService;
     @Autowired
-    private RoleService roleService;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/roles")
     public ResponseEntity<List<Role>> elements() {
