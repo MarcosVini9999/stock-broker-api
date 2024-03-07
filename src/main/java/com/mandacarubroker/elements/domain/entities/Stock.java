@@ -29,7 +29,6 @@ public class Stock {
     private String id;
     private String symbol;
     private Float price;
-
     private Float variation;
     private static final DecimalFormat DEC = new DecimalFormat("#.####");
 
