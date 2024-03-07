@@ -33,10 +33,6 @@ public class Stock {
     private Float variation;
     private static final DecimalFormat DEC = new DecimalFormat("#.####");
 
-
-
-
-
     @ManyToOne
     @JoinColumn(name="companyid", insertable=false, updatable=false)
     private Company company;
