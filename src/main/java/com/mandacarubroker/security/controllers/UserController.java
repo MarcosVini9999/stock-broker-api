@@ -8,7 +8,12 @@ import com.mandacarubroker.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +39,8 @@ public class UserController {
     }
 
     @PutMapping("/user/edit/{id}")
-    public ResponseEntity<String> editUser(@PathVariable Integer id) {
+    public ResponseEntity<Map<String,
+                    java.lang.Object>> editUser(@PathVariable Integer id) {
         User user = userService.findById(id);
         Set<Role> userRoles = roleService.getUserRoles(user);
         List<Role> userNotRoles = roleService.getUserNotRoles(user);
@@ -44,7 +50,7 @@ public class UserController {
         response.put("userRoles", userRoles);
         response.put("userNotRoles", userNotRoles);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User role update successfully");
+       return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 
 

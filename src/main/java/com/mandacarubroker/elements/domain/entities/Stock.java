@@ -29,8 +29,9 @@ public class Stock {
     private String id;
     private String symbol;
     private Float price;
+
     private Float variation;
-    private static final DecimalFormat decForm = new DecimalFormat("#.####");
+    private static final DecimalFormat DEC = new DecimalFormat("#.####");
 
 
 
@@ -56,7 +57,7 @@ public class Stock {
 
     public Float changePrice(float amount) {
         if (this.price != 0) {
-            String number = decForm.format(((amount - this.price) / this.price) * 100);
+            String number = DEC.format(((amount - this.price) / this.price) * 100);
             this.variation = Float.parseFloat(number.replace(",", "."));
         }
         return amount;
