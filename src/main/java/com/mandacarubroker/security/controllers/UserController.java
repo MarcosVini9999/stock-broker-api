@@ -18,12 +18,14 @@ import java.util.Set;
 @RestController
 @RequestMapping("/security")
 public class UserController {
+    private final RoleService roleService;
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
+    public UserController(RoleService roleService, UserService userService) {
+        this.roleService = roleService;
+        this.userService = userService;
+    }
 
     @GetMapping("/users")
     public ResponseEntity<List<ResponseUserDTO>> getAll() {
@@ -47,7 +49,7 @@ public class UserController {
 
 
     @GetMapping("/user/details/{id}")
-    public ResponseEntity<?>  detailsUserById(@PathVariable int id) {
+    public ResponseEntity<Map<String, Object>>  detailsUserById(@PathVariable int id) {
         return ResponseEntity.ok(
                 Map.of(
                         "user", userService.findById(id),
@@ -59,7 +61,7 @@ public class UserController {
 
 
 
-    @DeleteMapping(value="/users/delete/{id}")
+    @DeleteMapping(value="/user/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id) {
         userService.delete(id);
         return ResponseEntity.ok("Stock deleted successfully");

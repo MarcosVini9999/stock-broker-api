@@ -7,7 +7,12 @@ import com.mandacarubroker.elements.domain.entities.Company;
 import com.mandacarubroker.elements.repositories.CompanyRepository;
 import com.mandacarubroker.elements.services.CompanyService;
 import com.mandacarubroker.elements.services.exceptions.DataIntegratyViolationException;
-import jakarta.validation.*;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.ConstraintViolation;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -19,8 +24,13 @@ import java.util.Set;
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
+    private final CompanyRepository companyRepository;
     @Autowired
-    private CompanyRepository companyRepository;
+    public CompanyServiceImpl(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
+
+
 
     public List<ResponseCompanyDTO> findAll(){
 

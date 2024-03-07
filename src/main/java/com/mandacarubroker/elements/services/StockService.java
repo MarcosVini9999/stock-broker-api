@@ -10,8 +10,6 @@ public interface StockService {
 
     List<ResponseStockDTO> findAll();
 
-
-
     ResponseStockDTO findById(String id);
 
     void delete(String id);

@@ -7,27 +7,32 @@ import com.mandacarubroker.elements.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/elements/companies")
 public class CompanyController {
-
+    private final CompanyService companyService;
     @Autowired
-    private CompanyService companyService;
+    public  CompanyController(CompanyService companyService) {
+        this.companyService = companyService;
+    }
+
+
 
     @GetMapping
     public ResponseEntity<List<ResponseCompanyDTO>>getAllStocks() {
         return ResponseEntity.ok(companyService.findAll());
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseCompanyDTO> getCompany(@PathVariable String id) {
-        ResponseCompanyDTO responseCompanyDTO = companyService.getById(id);
-        return ResponseEntity.ok(responseCompanyDTO);
-    }
-
 
     @GetMapping("/details/{id}")
     public ResponseEntity<ResponseCompanyDTO>  getCompanyById(@PathVariable String id) {
@@ -35,15 +40,11 @@ public class CompanyController {
 
     }
 
-
-
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> editCompany(@PathVariable String id, @RequestBody RequestCompanyDTO data) {
+    public ResponseEntity<String> editCompany(@PathVariable String id, @RequestBody RequestCompanyDTO data) {
         companyService.validateAndUpdateCompany(id, data);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Stock update successfully");
     }
-
-
 
     @PostMapping("/companyAdd")
     public ResponseEntity<String> addCompany(@RequestBody RequestCompanyDTO data) {

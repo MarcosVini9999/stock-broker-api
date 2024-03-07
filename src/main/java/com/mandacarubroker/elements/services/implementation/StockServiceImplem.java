@@ -24,8 +24,11 @@ import java.util.Set;
 @Service
 public class StockServiceImplem implements StockService {
 
+    private final StockRepository stockRepository;
     @Autowired
-    private StockRepository stockRepository;
+    public StockServiceImplem(StockRepository stockRepository) {
+        this.stockRepository = stockRepository;
+    }
 
     //Get All States
     public List<ResponseStockDTO> findAll(){
