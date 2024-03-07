@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Company {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private String id;
@@ -34,11 +33,6 @@ public class Company {
 		this.ticker = requestCompanyDTO.ticker();
 
 	}
-
-
-
-
-	
 	@OneToMany(mappedBy="company")
 	private List<Stock> stocks;
 }

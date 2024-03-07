@@ -8,6 +8,7 @@ import com.mandacarubroker.security.domain.entities.User;
 import com.mandacarubroker.security.repositories.UserRepository;
 import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,8 @@ import java.util.Set;
 @Service
 public class UserService {
 
-
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -39,7 +41,12 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-
+    //Update User
+//    public void save(User user) {
+//        findByUserName(user);
+//        user.setPassword(encoder.encode(user.getPassword()));
+//        userRepository.save(user);
+//    }
 
 
 
@@ -72,7 +79,8 @@ public class UserService {
         findByUserName(data);
 
         User newUser = new User(data);
-
+        newUser.setPassword(encoder.encode(newUser.getPassword()));
+        newUser.setConfirmpassword(encoder.encode(newUser.getConfirmpassword()));
         userRepository.save(newUser);
     }
 
