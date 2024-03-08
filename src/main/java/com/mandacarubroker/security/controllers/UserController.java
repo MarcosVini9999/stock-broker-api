@@ -8,7 +8,12 @@ import com.mandacarubroker.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,12 +23,14 @@ import java.util.Set;
 @RestController
 @RequestMapping("/security")
 public class UserController {
+    private final RoleService roleService;
+    private final UserService userService;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RoleService roleService;
+    public UserController(RoleService roleService, UserService userService) {
+        this.roleService = roleService;
+        this.userService = userService;
+    }
 
     @GetMapping("/users")
     public ResponseEntity<List<ResponseUserDTO>> getAll() {
@@ -32,7 +39,8 @@ public class UserController {
     }
 
     @PutMapping("/user/edit/{id}")
-    public ResponseEntity<String> editUser(@PathVariable Integer id) {
+    public ResponseEntity<Map<String,
+                    java.lang.Object>> editUser(@PathVariable Integer id) {
         User user = userService.findById(id);
         Set<Role> userRoles = roleService.getUserRoles(user);
         List<Role> userNotRoles = roleService.getUserNotRoles(user);
@@ -42,12 +50,12 @@ public class UserController {
         response.put("userRoles", userRoles);
         response.put("userNotRoles", userNotRoles);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User role update successfully");
+       return ResponseEntity.status(HttpStatus.NO_CONTENT).body(response);
     }
 
 
     @GetMapping("/user/details/{id}")
-    public ResponseEntity<?>  detailsUserById(@PathVariable int id) {
+    public ResponseEntity<Map<String, Object>>  detailsUserById(@PathVariable int id) {
         return ResponseEntity.ok(
                 Map.of(
                         "user", userService.findById(id),
@@ -59,7 +67,7 @@ public class UserController {
 
 
 
-    @DeleteMapping(value="/users/delete/{id}")
+    @DeleteMapping(value="/user/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable Integer id) {
         userService.delete(id);
         return ResponseEntity.ok("Stock deleted successfully");

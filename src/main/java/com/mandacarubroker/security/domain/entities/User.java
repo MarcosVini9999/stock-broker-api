@@ -2,8 +2,16 @@ package com.mandacarubroker.security.domain.entities;
 
 
 import com.mandacarubroker.security.domain.dtos.RequestUserDTO;
-import jakarta.persistence.*;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinTable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +28,6 @@ import java.util.Set;
 @Data
 @Table(name = "\"User\"")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -6,7 +6,13 @@ import com.mandacarubroker.security.domain.dtos.RequestUserDTO;
 import com.mandacarubroker.security.domain.dtos.ResponseUserDTO;
 import com.mandacarubroker.security.domain.entities.User;
 import com.mandacarubroker.security.repositories.UserRepository;
-import jakarta.validation.*;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidationException;
+import jakarta.validation.ConstraintViolation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,11 +24,14 @@ import java.util.Set;
 @Service
 public class UserService {
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    private final BCryptPasswordEncoder encoder;
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public UserService(BCryptPasswordEncoder encoder, UserRepository userRepository) {
+        this.encoder = encoder;
+        this.userRepository = userRepository;
+    }
 
     //Get All Users
     public List<ResponseUserDTO> findAll() {
@@ -36,19 +45,9 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-
     public void delete(int id) {
         userRepository.deleteById(id);
     }
-
-    //Update User
-//    public void save(User user) {
-//        findByUserName(user);
-//        user.setPassword(encoder.encode(user.getPassword()));
-//        userRepository.save(user);
-//    }
-
-
 
     public static void validateRequestUserDTO(RequestUserDTO data) {
         try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {

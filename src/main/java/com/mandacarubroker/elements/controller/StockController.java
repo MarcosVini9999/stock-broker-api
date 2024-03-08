@@ -1,6 +1,6 @@
 package com.mandacarubroker.elements.controller;
 import com.mandacarubroker.elements.domain.dtos.RequestStockDTO;
-import com.mandacarubroker.elements.services.CompanyService;
+import com.mandacarubroker.elements.domain.dtos.ResponseStockDTO;
 import com.mandacarubroker.elements.services.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,48 +14,31 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/elements/stocks")
 public class StockController {
-
+    private final StockService stockService;
     @Autowired
-    private StockService stockService;
-
-    @Autowired
-    private CompanyService companyService;
-
-
-
-    @GetMapping
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok()
-                .body(Map.of(
-                        "stocks", stockService.findAll(),
-                        "companies", companyService.findAll()
-                ));
+    public StockController(StockService stockService ) {
+        this.stockService = stockService;
     }
 
-
+    @GetMapping
+    public ResponseEntity<List<ResponseStockDTO>> findAll() {
+        return ResponseEntity.ok(stockService.findAll());
+    }
 
     @GetMapping("/details/{id}")
-    public ResponseEntity<?>  getStockById(@PathVariable String id) {
-        return ResponseEntity.ok(
-                Map.of(
-                        "stocks", stockService.findById(id),
-                        "companies", companyService.findAll(),
-                        "stock", stockService.findById(id)
-                )
-        );
+    public ResponseEntity<ResponseStockDTO>  getStockById(@PathVariable String id) {
+        return ResponseEntity.ok(stockService.findById(id));
     }
 
 
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<?> editStock(@PathVariable String id, @RequestBody RequestStockDTO data) {
+    public ResponseEntity<String> editStock(@PathVariable String id, @RequestBody RequestStockDTO data) {
         stockService.validateAndUpdateStock(id, data);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Stock update successfully");
     }
