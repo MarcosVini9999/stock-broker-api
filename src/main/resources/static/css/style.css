@@ -4,6 +4,21 @@
 
 @import url(line-icons.css);
 
+/* No seu arquivo de folha de estilo (CSS) */
+.positive-variation {
+    color: yellow;
+    font-size: large;
+
+}
+
+.negative-variation {
+    color: red;
+    font-size: large;
+}
+
+
+
+
 
 
 body {
@@ -1812,11 +1827,11 @@ div[data-role="editor-toolbar"] {
 
 .info-box {
 
-  min-height: 140px;
+  min-height: 50px;
 
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 
-  padding: 20px;
+  padding: 5px;
 
   color: white;
 
@@ -3860,7 +3875,7 @@ tbody{
 
 .table-hover > tbody > tr:hover > th {
 
-    background-color: #f7f8fc;
+    background-color: #000066;
 
 }
 

@@ -19,7 +19,7 @@
         </div>
     <div class="container" style="width: 70%">
     <div class="row">
-        <form class="form-horizontal" th:action="@{/elements/stocks}" method="post">
+        <form class="form-horizontal" th:action="@{'/elements/stock/Edit/' + ${stock.id}}" method="post">
             <div class="col-lg-12">
                 <section class="panel">
                     <header class="panel-heading">
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-4">Company: </label>
                             <div class="col-sm-6">
-                                <select class="form-control" name="companyid">
+                                <select class="form-control" name="companyid" readonly>
                                     <option>-SELECT-</option>
                                     <option th:each="company : ${companies}"
                                             th:value="${company.id}"
@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-4">Symbol</label>
                             <div class="col-sm-6">
-                                <input name="symbol" th:value="${stock.symbol}" type="text" class="form-control">
+                                <input name="symbol" th:value="${stock.symbol}" readonly type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">

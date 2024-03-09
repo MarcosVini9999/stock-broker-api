@@ -19,69 +19,58 @@
         </div>
     <div class="container" style="width: 70%">
         <div class="row">
-            <form class="form-horizontal" th:action="@{/elements/stocks}" method="post">
-                <div class="col-lg-12">
-                    <section class="panel">
-                        <header class="panel-heading">
-                            Add New Stock
-                        </header>
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <label class="control-label col-sm-4">Id</label>
-                                <div class="col-sm-6">
-                                    <input name="id" th:value="${stock.id}" type="text" size="16" readonly class="form-control">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-4">Company: </label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" name="companyid" readonly>
-                                        <option>-SELECT-</option>
-                                        <option th:each="company : ${companies}"
-                                                th:value="${company.id}"
-                                                th:selected="${company.id}==${stock.companyid} ? True: False"
-                                                th:text="${company.name}">
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-4">Symbol</label>
-                                <div class="col-sm-6">
-                                    <input name="symbol" th:value="${stock.symbol}" type="text" class="form-control" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-4">Price</label>
-                                <div class="col-sm-6">
-                                    <input name="price" th:value="${stock.price}" class="form-control" size="16" type="text" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-4"> Variation</label>
-                                <div class="col-sm-6">
-                                    <input name="variation" type="number" th:value="${stock.variation}" class=" form-control" readonly/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-4">Details</label>
-                                <div class="col-sm-5">
-                                    <input name="details" th:value="${stock.details}" type="text" class="form-control" readonly>
-                                </div>
+            <div class="col-lg-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Stock Information
+                    </header>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Id</label>
+                            <div class="col-sm-6">
+                                <p class="form-control-static" th:text="${stock.id}"></p>
                             </div>
                         </div>
-                    </section>
-
-                    <section class="panel">
-                        <div class="panel-body">
-                            <button type="submit"  class="btn btn-success" disabled>Save</button>
-                            <a href="/elements/stocks" class="btn btn-warning">Exit</a>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Company: </label>
+                            <div class="col-sm-6">
+                                <p class="form-control-static" th:text="${stock.company.name}"></p>
+                            </div>
                         </div>
-                    </section>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Symbol</label>
+                            <div class="col-sm-6">
+                                <p class="form-control-static" th:text="${stock.symbol}"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Price</label>
+                            <div class="col-sm-6">
+                                <p class="form-control-static" th:text="${stock.price}"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4"> Variation</label>
+                            <div class="col-sm-6">
+                                <p class="form-control-static" th:text="${stock.variation}"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4">Details</label>
+                            <div class="col-sm-5">
+                                <p class="form-control-static" th:text="${stock.details}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
-                </div>
+                <section class="panel">
+                    <div class="panel-body">
+                        <a href="/elements/stocks" class="btn btn-warning">Exit</a>
+                    </div>
+                </section>
+            </div>
 
-            </form>
         </div>
 
 </div>

@@ -57,6 +57,19 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.findByKeyword(keyword);
     }
 
+
+    public void validateAndUpdateCompany(String id, RequestCompanyDTO data) {
+        validateRequestCompanyDTO(data);
+        Optional<Company> companyId = companyRepository.findById(id);
+
+        companyId
+                .map(company -> {
+                    company.setCapital(data.capital());
+                    company.setName(data.name());
+                    company.setTicker(data.ticker());
+                    return companyRepository.save(company);
+                });
+    }
     public static void validateRequestCompanyDTO(RequestCompanyDTO data) {
         try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
             Validator validator = factory.getValidator();

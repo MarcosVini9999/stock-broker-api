@@ -40,11 +40,6 @@ public class Company {
 		this.ticker = requestCompanyDTO.ticker();
 
 	}
-
-
-
-
-	
 	@OneToMany(mappedBy="company")
 	private List<Stock> stocks;
 }

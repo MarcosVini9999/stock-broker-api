@@ -57,7 +57,7 @@ public class StockServiceImpl implements StockService {
 		}
 		return stockId
 				.map(stock -> {
-					stock.setSymbol(data.symbol());
+					stock.setDetails(data.details());
 					float newPrice = stock.changePrice(data.price());
 					stock.setPrice(newPrice);
 

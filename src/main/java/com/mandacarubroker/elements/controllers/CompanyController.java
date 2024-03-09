@@ -81,6 +81,14 @@ public class CompanyController {
         return "/elements/company"+ op;
     }
 
+
+    @PostMapping("/elements/company/Edit/{id}")
+    public String editCompany2(@PathVariable String id, RequestCompanyDTO data) {
+        companyService.validateAndUpdateCompany(id, data);
+        return "redirect:/elements/companies";
+    }
+
+
     @PostMapping("/elements/companies")
     public String save(RequestCompanyDTO data){
         companyService.validateAndCreateCompany(data);

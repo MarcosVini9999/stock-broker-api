@@ -31,7 +31,7 @@ public interface CompanyService {
 
     void validateAndCreateCompany(RequestCompanyDTO data);
 
-    //Stock validateAndUpdateCompany(String id, RequestStockDTO data );
+    void validateAndUpdateCompany(String id, RequestCompanyDTO data);
 
 
 }

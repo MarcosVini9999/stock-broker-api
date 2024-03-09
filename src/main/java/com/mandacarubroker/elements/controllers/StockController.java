@@ -39,14 +39,11 @@ public class StockController {
 		return "/elements/stock" + op;
 	}
 
-//	@PutMapping(value="/elements/stock/Editar/{id}")
-//	public String editStock(@PathVariable String id, RequestStockDTO data) {
-//		stockService.validateAndUpdateStock(id, data);
-//		return "redirect:/elements/stocks";
-//	}
-
-
-
+	@PostMapping("/elements/stock/Edit/{id}")
+	public String editStock2(@PathVariable String id, RequestStockDTO data) {
+		stockService.validateAndUpdateStock(id, data);
+		return "redirect:/elements/stocks";
+	}
 
 
 	@PostMapping(value="/elements/stocks")

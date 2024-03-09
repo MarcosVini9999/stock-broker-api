@@ -36,9 +36,6 @@ public class Stock {
 	private static final DecimalFormat decForm = new DecimalFormat("#.####");
 
 
-
-
-
 	@ManyToOne
 	@JoinColumn(name="companyid", insertable=false, updatable=false)
 	private Company company;
@@ -53,10 +50,7 @@ public class Stock {
 		this.details = requestStockDTO.details();
 		this.companyid = requestStockDTO.companyid();
 		changePrice(this.price);
-
 	}
-
-
 	public Float changePrice(float amount) {
 		if (this.price != 0) {
 			String number = decForm.format(((amount - this.price) / this.price) * 100);
